@@ -68,8 +68,8 @@ describe "Subscription" do
     it "Create" do
       # create access token and then create a plan
       $api = API.new
-      plan = Plan.new(PlanAttributes.merge( :token => $api.token ))
-      expect(Plan.api).not_to eql plan.api
+      plan = PaypalPlan.new(PlanAttributes.merge(:token => $api.token ))
+      expect(PaypalPlan.api).not_to eql plan.api
       plan.create
 
       # make sure the transaction was successful
@@ -80,7 +80,7 @@ describe "Subscription" do
 
     it "Update" do
       # create a new plan to update
-      plan = Plan.new(PlanAttributes)
+      plan = PaypalPlan.new(PlanAttributes)
       expect(plan.create).to be_truthy
 
       # set up a patch request
@@ -95,14 +95,14 @@ describe "Subscription" do
 
     it "List" do
       # list all billing plans
-      plan_list = Plan.all
+      plan_list = PaypalPlan.all
       expect(plan_list.error).to be_nil
       expect(plan_list.plans.count).to be > 1
     end
 
     it "Delete" do
       # create a plan to delete
-      plan = Plan.new(PlanAttributes.merge( :token => $api.token ))
+      plan = PaypalPlan.new(PlanAttributes.merge(:token => $api.token ))
       plan.create
       plan_id = plan.id
 
@@ -116,7 +116,7 @@ describe "Subscription" do
       plan.update(patch)
 
       # make sure the plan has been deleted
-      plan = Plan.find(plan_id)
+      plan = PaypalPlan.find(plan_id)
       expect(plan.id).not_to eq plan_id
     end
   end
@@ -126,12 +126,12 @@ describe "Subscription" do
     it "Create" do
       # first, create an active plan to be added to agreement
       api = API.new
-      plan = Plan.new(PlanAttributes)
+      plan = PaypalPlan.new(PlanAttributes)
       expect(plan.create).to be_truthy
 
       # first, create an agreement
       $agreement = Agreement.new(AgreementAttributes)
-      $agreement.plan = Plan.new( :id => "P-1K47639161110773GYDKTWIA" )
+      $agreement.plan = PaypalPlan.new(:id => "P-1K47639161110773GYDKTWIA" )
       $agreement.shipping_address = nil
 
       # verify newly created agreement
@@ -164,12 +164,12 @@ describe "Subscription" do
     xit "Update" do
       # get the agreement to update
       api = API.new
-      plan = Plan.new(PlanAttributes)
+      plan = PaypalPlan.new(PlanAttributes)
       expect(plan.create).to be_truthy
 
       # first, create an agreement
       agreement = Agreement.new(AgreementAttributes)
-      agreement.plan = Plan.new( :id => "P-1K47639161110773GYDKTWIA" )
+      agreement.plan = PaypalPlan.new(:id => "P-1K47639161110773GYDKTWIA" )
       expect(agreement.create).to be_truthy
 
 
