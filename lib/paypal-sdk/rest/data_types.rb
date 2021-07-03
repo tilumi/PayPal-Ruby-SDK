@@ -57,7 +57,7 @@ module PayPal::SDK
           object_of :id, String
           object_of :intent, String
           object_of :payer, Payer
-          object_of :payee, Payee
+          object_of :payee, PaypalPayee
           object_of :cart, String
           array_of  :transactions, Transaction
           array_of  :failed_transactions, Error
@@ -659,7 +659,7 @@ module PayPal::SDK
       class Transaction < Base
         def self.load_members
           object_of :amount, Amount
-          object_of :payee, Payee
+          object_of :payee, PaypalPayee
           object_of :description, String
           object_of :invoice_number, String
           object_of :custom, String
@@ -676,7 +676,7 @@ module PayPal::SDK
       class CartBase < Base
         def self.load_members
           object_of :amount, Amount
-          object_of :payee, Payee
+          object_of :payee, PaypalPayee
           object_of :description, String
           object_of :note_to_payee, String
           object_of :custom, String
@@ -711,7 +711,7 @@ module PayPal::SDK
         end
       end
 
-      class Payee < Base
+      class PaypalPayee < Base
         def self.load_members
           object_of :email, String
           object_of :merchant_id, String
